@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors" 
 import dotenv from "dotenv"
 import connectDB from "./config/db.js"
+import authRoutes from "./routes/auth.routes.js"
 
 dotenv.config()
 
@@ -11,10 +12,8 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-// Route de test
-app.get('/', (req, res) => {
-    res.json({messag: "Backend is working!"})
-})
+// Routes
+app.use("/api/auth", authRoutes)
 
 connectDB()
 
