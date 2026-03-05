@@ -1,18 +1,37 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { HashRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, HashRouter, Route, Routes } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
+import LoginPage from './pages/LoginPage.jsx'
+import HomePage from './pages/HomePage.jsx'
+import DashboardPage from './pages/DashboardPage.jsx'
+import RequestDetailsPage from './pages/RequestDetailsPage.jsx'
+import SettingsPage from './pages/SettingsPage.jsx'
+import ProtectedRoute from './component/ProtectedRoute.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <HashRouter>
+      <BrowserRouter>
         <Routes>
-          <Route path='/' element={<App />} />
+          {/* Public Routes */}
+          <Route path="/login" element={<LoginPage />} />
+
+          {/* Protected Routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route element={<App />}>
+
+              <Route path="/" element={<HomePage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/requests/:id" element={<RequestDetailsPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+
+            </Route>
+          </Route>
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </AuthProvider>
   </StrictMode>,
 )
