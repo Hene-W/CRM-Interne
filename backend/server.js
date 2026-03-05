@@ -12,10 +12,10 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+connectDB()
+
 // Routes
 app.use("/api/auth", authRoutes)
-
-connectDB()
 
 // Lancer le server
 const PORT = process.env.PORT || 5000

@@ -22,13 +22,14 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     const login = async (email, password) => {
+        setIsLoading(true)
         try {
             const res = await fetch(`${API_URL}/api/auth/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ email: email.trim(), password })
             })
 
             const data = await res.json()
@@ -40,11 +41,15 @@ export const AuthProvider = ({ children }) => {
             setToken(data.token)
             setUser(data.user)
             setIsLoggedIn(true)
+            setIsLoading(false)
 
             localStorage.setItem("token", data.token)
             localStorage.setItem("user", JSON.stringify(data.user))
+
+            return true
         } catch (error) {
             console.log("Login error:", error)
+            setIsLoading(false)
         }
     }
 
