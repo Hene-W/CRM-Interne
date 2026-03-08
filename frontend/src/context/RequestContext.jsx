@@ -33,7 +33,13 @@ export const RequestProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        if (token) fetchRequests()
+        // whenever the token changes (initial load or login) refetch the requests
+        if (token) {
+            fetchRequests()
+        } else {
+            // clear list on logout
+            setRequests([])
+        }
     }, [token])
 
 
@@ -79,7 +85,7 @@ export const RequestProvider = ({ children }) => {
                 throw new Error(data.message || "Failed to fetch requests")
             }
 
-            setRequests(data.request, ...prev)
+            setRequests(prev => [data.request, ...prev])
             return data.request
         } catch (error) {
             console.error("Error creating request:", error)
@@ -154,4 +160,4 @@ export const RequestProvider = ({ children }) => {
     )
 }
 
-export const useRequests = () => createContext(RequestContext)
+export const useRequests = () => useContext(RequestContext) 

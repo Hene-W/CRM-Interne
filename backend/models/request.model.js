@@ -23,7 +23,7 @@ const requestSchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            default: "En cours de traitement"
+            default: "Nouveau"
         },
         internalNotes: {
             type: String,
