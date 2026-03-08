@@ -10,28 +10,31 @@ import DashboardPage from './pages/DashboardPage.jsx'
 import RequestDetailsPage from './pages/RequestDetailsPage.jsx'
 import SettingsPage from './pages/SettingsPage.jsx'
 import ProtectedRoute from './component/ProtectedRoute.jsx'
+import { RequestProvider } from './context/RequestContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/login" element={<LoginPage />} />
+      <RequestProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/login" element={<LoginPage />} />
 
-          {/* Protected Routes */}
-          <Route element={<ProtectedRoute />}>
-            <Route element={<App />}>
+            {/* Protected Routes */}
+            <Route element={<ProtectedRoute />}>
+              <Route element={<App />}>
 
-              <Route path="/" element={<HomePage />} />
-              <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/requests/:id" element={<RequestDetailsPage />} />
-              <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/" element={<HomePage />} />
+                <Route path="/dashboard" element={<DashboardPage />} />
+                <Route path="/requests/:id" element={<RequestDetailsPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
 
+              </Route>
             </Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
+      </RequestProvider>
     </AuthProvider>
   </StrictMode>,
 )
