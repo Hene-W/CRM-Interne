@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { IoArrowDown, IoCaretDownOutline, IoGridOutline, IoMenu, IoMenuOutline, IoSearch } from 'react-icons/io5'
 import Dropdown from '../DropDown';
 
-const RequestsToolBar = ({ setViewMode, viewMode, selectedStatus, setSelectedStatus }) => {
+const RequestsToolBar = ({ setViewMode, viewMode, selectedStatus, setSelectedStatus, searchQuery, setSearchQuery }) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const statusOptions = [
     { value: "Nouveau", label: "Nouveau" },
@@ -54,6 +54,8 @@ const RequestsToolBar = ({ setViewMode, viewMode, selectedStatus, setSelectedSta
 
         <input
           type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Rechercher..."
           className="w-full pl-8 pr-3 py-2 bg-[#f4f4f4] rounded-lg  focus:outline-none focus:ring-1 focus:ring-gray-300"
         />

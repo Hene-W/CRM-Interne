@@ -1,14 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import RequestsHeader from '../component/requests/RequestsHeader'
 import RequestsToolBar from '../component/requests/RequestsToolBar'
 import RequestsList from '../component/requests/RequestsList'
 import { IoAdd } from 'react-icons/io5'
 import RequestsCard from '../component/requests/RequestsCard'
+import { useRequests } from '../context/RequestContext'
 
 const HomePage = () => {
   const [selectedStatus, setSelectedStatus] = useState([])
   const [viewMode, setViewMode] = useState("list")
+  const [searchQuery, setSearchQuery] = useState('')
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+  const { requests, isLoading } = useRequests()
 
+  const filteredBySearch = requests.filter((request) => {
+    if (!normalizedSearch) return true
+    const fullName = `${request.clientName} ${request.firstName || ""}`.toLowerCase()
+    return fullName.includes(normalizedSearch)
+  })
+
+  const filteredRequests = filteredBySearch.filter((request) => {
+    if (selectedStatus.length === 0) return true
+    return selectedStatus.includes(request.status);
+  })
 
   return (
     <div className='flex flex-col gap-4 min-h-0'>
@@ -17,15 +31,19 @@ const HomePage = () => {
         <IoAdd size={24} />
       </button>
 
-      <RequestsToolBar setViewMode={setViewMode} viewMode={viewMode} selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus} />
+      <RequestsToolBar
+        setViewMode={setViewMode} viewMode={viewMode}
+        selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus}
+        searchQuery={searchQuery} setSearchQuery={setSearchQuery}
+      />
 
       <div className="flex-1 overflow-y-auto">
         <div className="hidden md:block">
-          {viewMode === "list" ? <RequestsList /> : <RequestsCard />}
+          {viewMode === "list" ? <RequestsList allRequests={requests} requests={filteredRequests} isLoading={isLoading} /> : <RequestsCard allRequests={requests} requests={filteredRequests} isLoading={isLoading} />}
         </div>
 
         <div className='md:hidden'>
-          <RequestsCard />
+          <RequestsCard allRequests={requests} requests={filteredRequests} isLoading={isLoading} />
         </div>
       </div>
     </div>
