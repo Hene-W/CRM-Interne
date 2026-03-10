@@ -75,7 +75,7 @@ export const updateRequest = async (req, res) => {
                 status,
                 internalNotes
             },
-            { new: true, runValidators: true }
+            { returnDocument: "after", runValidators: true }
         )
 
         if (!updatedRequest) {

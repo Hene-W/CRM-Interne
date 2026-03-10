@@ -12,16 +12,16 @@ const RequestsToolBar = ({ setViewMode, viewMode, selectedStatus, setSelectedSta
   ];
 
   return (
-    <div className='flex justify-between items-center '>
-      <div className='flex items-center gap-4'>
+    <div className="flex flex-col-reverse gap-3 md:flex-row md:items-center md:justify-between">
+      <div className='flex items-center justify-between md:justify-normal gap-4 '>
 
         {/* VIEW TOGGLE BUTTONS */}
-        <div className='flex items-center bg-[#f4f4f4] rounded-lg border-2 border-[#f4f4f4]'>
+        <div className=' hidden md:flex items-center bg-[#f4f4f4] rounded-lg border-2 border-[#f4f4f4]'>
           <button onClick={() => setViewMode("list")} className={`flex items-center gap-2 p-3 py-1.5 rounded-lg ${viewMode === "list" ? "bg-white" : "text-gray-400"}`}>
             <span className='text-xl'><IoMenuOutline /></span>
             Liste
           </button>
-          <button onClick={() => setViewMode("grid")} className={`flex items-center gap-2 p-3 py-1.5 rounded-lg ${viewMode === "grid" ? "bg-white" : "text-gray-400"}`}>
+          <button onClick={() => setViewMode("grid")} className={`flex items-center gap-2 p-3 px-4 md:px-3 md:py-1.5 rounded-lg ${viewMode === "grid" ? "bg-white" : "text-gray-400"}`}>
             <span><IoGridOutline /></span>
             Grille
           </button>
@@ -29,7 +29,7 @@ const RequestsToolBar = ({ setViewMode, viewMode, selectedStatus, setSelectedSta
 
         {/* FILTERS */}
         <div className='relative'>
-          <button onClick={() => setMenuOpen(!menuOpen)} className='flex items-center gap-2 hover:bg-[#f6f7ed] border border-[#f4f4f4] rounded-lg p-4 py-2'>
+          <button onClick={() => setMenuOpen(!menuOpen)} className='flex items-center gap-2 hover:bg-[#f6f7ed] border border-[#f4f4f4] rounded-lg px-3 md:px-4 py-2'>
             Filtrer {selectedStatus.length > 0 && `(${selectedStatus.length})`}
             <span><IoCaretDownOutline /></span>
           </button>
@@ -47,15 +47,15 @@ const RequestsToolBar = ({ setViewMode, viewMode, selectedStatus, setSelectedSta
       </div>
 
       {/* SEARCH BAR */}
-      <div class="relative w-64">
-        <span class="absolute inset-y-0 left-2 flex items-center text-lg text-gray-400">
+      <div className="relative w-full md:w-64">
+        <span className="absolute inset-y-0 left-2 flex items-center text-lg text-gray-400">
           <IoSearch />
         </span>
 
         <input
           type="text"
           placeholder="Rechercher..."
-          class="w-full pl-8 pr-3 py-2 bg-[#f4f4f4] rounded-lg  focus:outline-none focus:ring-1 focus:ring-gray-300"
+          className="w-full pl-8 pr-3 py-2 bg-[#f4f4f4] rounded-lg  focus:outline-none focus:ring-1 focus:ring-gray-300"
         />
       </div>
     </div>
