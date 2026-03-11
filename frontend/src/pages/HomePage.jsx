@@ -5,12 +5,14 @@ import RequestsList from '../component/requests/RequestsList'
 import { IoAdd } from 'react-icons/io5'
 import RequestsCard from '../component/requests/RequestsCard'
 import { useRequests } from '../context/RequestContext'
+import CreateRequestModal from '../component/requests/CreateRequestModal'
 
 const HomePage = () => {
   const [selectedStatus, setSelectedStatus] = useState([])
   const [viewMode, setViewMode] = useState("list")
   const [searchQuery, setSearchQuery] = useState('')
   const normalizedSearch = searchQuery.trim().toLowerCase();
+  const [openModal, setOpenModal] = useState(false)
   const { requests, isLoading } = useRequests()
 
   const filteredBySearch = requests.filter((request) => {
@@ -26,10 +28,12 @@ const HomePage = () => {
 
   return (
     <div className='flex flex-col gap-4 min-h-0'>
-      <RequestsHeader />
-      <button className="md:hidden fixed bottom-5 right-5 bg-[#1f1f1f] hover:bg-[#333333] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg">
+      <RequestsHeader setOpenModal={setOpenModal} />
+      <button onClick={() => setOpenModal(true)} className="md:hidden fixed bottom-5 right-5 bg-[#1f1f1f] hover:bg-[#333333] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg">
         <IoAdd size={24} />
       </button>
+
+      {openModal && <CreateRequestModal isOpen={true} onClose={() => setOpenModal(false)} />}
 
       <RequestsToolBar
         setViewMode={setViewMode} viewMode={viewMode}

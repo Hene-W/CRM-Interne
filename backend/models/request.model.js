@@ -19,7 +19,8 @@ const requestSchema = new mongoose.Schema(
         },
         requestType: {
             type: String,
-            required: true
+            required: true,
+            default: "Aucun"
         },
         status: {
             type: String,

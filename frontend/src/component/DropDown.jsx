@@ -11,7 +11,7 @@ const Dropdown = ({ isOpen, setIsOpen, label, options = [], selected = [], onCha
     };
 
     return (
-        <div className="absolute top-12">
+        <div className="absolute top-12 z-20">
 
             <div className=" w-48 bg-white border border-[#f4f4f4] rounded shadow-lg z-50">
                 {options.map((option) => (
