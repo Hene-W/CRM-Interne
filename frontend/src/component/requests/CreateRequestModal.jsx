@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Dropdown from '../DropDown'
 import CustomSelect from '../CustomSelect'
 import { IoCaretDownOutline } from 'react-icons/io5'
+import { useRequests } from '../../context/RequestContext'
 
 const CreateRequestModal = ({ isOpen, onClose }) => {
     const [menuTypeOpen, setMenuTypeOpen] = useState(false)
@@ -9,7 +10,7 @@ const CreateRequestModal = ({ isOpen, onClose }) => {
         nom: '',
         prenom: '',
         email: '',
-        types: [],
+        type: "",
         statut: 'Nouveau',
         notes: ''
     })
@@ -17,8 +18,6 @@ const CreateRequestModal = ({ isOpen, onClose }) => {
         { value: "Administration", label: "Administration" },
         { value: "Finance", label: "Finance" }
     ]
-    const [selectedTypes, setSelectedTypes] = useState([])
-
     const statusOptions = [
         { value: "Nouveau", label: "Nouveau" },
         { value: "En cours", label: "En cours" },
@@ -26,27 +25,32 @@ const CreateRequestModal = ({ isOpen, onClose }) => {
         { value: "Refusé", label: "Refusé" },
     ]
     const [menuStatusOpen, setMenuStatusOpen] = useState(false)
+    const { createRequest } = useRequests()
+
 
     const handleChange = (e) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         if (!formData.nom) {
             alert('Veuillez remplir les champs obligatoires')
             return
         }
 
-        const payload = {
-            ...formData,
-            types: selectedTypes, 
-        }
+        const requestPayload = {
+            clientName: formData.nom,
+            firstName: formData.prenom,
+            email: formData.email,
+            requestType: formData.type,
+            status: formData.statut,
+            internalNotes: formData.notes
+        }        
 
-        
+        await createRequest(requestPayload)
 
-        console.log('Formulaire soumis:', payload)
         handleCancel()
     }
 
@@ -55,11 +59,10 @@ const CreateRequestModal = ({ isOpen, onClose }) => {
             nom: '',
             prenom: '',
             email: '',
-            types: [],
+            type: "",
             statut: 'Nouveau',
             notes: ''
         })
-        setSelectedTypes([])
         onClose()
     }
 
@@ -128,20 +131,19 @@ const CreateRequestModal = ({ isOpen, onClose }) => {
                                     onClick={() => setMenuTypeOpen(!menuTypeOpen)}
                                     className="flex items-center justify-between gap-2 hover:bg-[#f6f7ed] border border-[#f4f4f4] rounded-lg px-3 md:px-4 py-2 w-full text-left"
                                 >
-                                    {selectedTypes.length > 0
-                                        ? `${selectedTypes.join(', ')}`
+                                    {formData.type ? formData.type
                                         : "Sélectionner un type"}
                                     <span><IoCaretDownOutline /></span>
                                 </button>
 
                                 {menuTypeOpen && (
-                                    <Dropdown
-                                        isOpen={menuTypeOpen}
-                                        setIsOpen={setMenuTypeOpen}
-                                        label="Sélectionner un type"
+                                    <CustomSelect
                                         options={typeOptions}
-                                        selected={selectedTypes}
-                                        onChange={setSelectedTypes}
+                                        value={formData.type}
+                                        onChange={(val) => setFormData(prev => ({ ...prev, type: val }))}
+                                        placeholder="Sélectionner un type"
+                                        open={menuTypeOpen}
+                                        setOpen={setMenuTypeOpen}
                                     />
                                 )}
                             </div>
