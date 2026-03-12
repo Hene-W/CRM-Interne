@@ -29,6 +29,7 @@ export const createRequest = async (req, res) => {
         })
 
         await newRequest.save()
+        await newRequest.populate("requestType", "name")
         return res.status(201).json({ message: "Request created successfully", request: newRequest })
 
     } catch (error) {

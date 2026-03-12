@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import Dropdown from '../DropDown'
 import CustomSelect from '../CustomSelect'
 import { IoCaretDownOutline } from 'react-icons/io5'
 import { useRequests } from '../../context/RequestContext'
+import { useRequestTypes } from '../../context/RequestTypeContext'
 
 const CreateRequestModal = ({ isOpen, onClose }) => {
     const [menuTypeOpen, setMenuTypeOpen] = useState(false)
+    const [menuStatusOpen, setMenuStatusOpen] = useState(false)
     const [formData, setFormData] = useState({
         nom: '',
         prenom: '',
@@ -14,18 +15,17 @@ const CreateRequestModal = ({ isOpen, onClose }) => {
         statut: 'Nouveau',
         notes: ''
     })
-    const typeOptions = [
-        { value: "Administration", label: "Administration" },
-        { value: "Finance", label: "Finance" }
-    ]
+
+    const { requestTypes } = useRequestTypes()
+    const { createRequest } = useRequests()
+
+    const typeOptions = requestTypes.map(rt => ({ value: rt._id, label: rt.name }))
     const statusOptions = [
         { value: "Nouveau", label: "Nouveau" },
         { value: "En cours", label: "En cours" },
         { value: "Terminé", label: "Terminé" },
         { value: "Refusé", label: "Refusé" },
     ]
-    const [menuStatusOpen, setMenuStatusOpen] = useState(false)
-    const { createRequest } = useRequests()
 
 
     const handleChange = (e) => {
@@ -47,7 +47,7 @@ const CreateRequestModal = ({ isOpen, onClose }) => {
             requestType: formData.type,
             status: formData.statut,
             internalNotes: formData.notes
-        }        
+        }
 
         await createRequest(requestPayload)
 
@@ -131,7 +131,8 @@ const CreateRequestModal = ({ isOpen, onClose }) => {
                                     onClick={() => setMenuTypeOpen(!menuTypeOpen)}
                                     className="flex items-center justify-between gap-2 hover:bg-[#f6f7ed] border border-[#f4f4f4] rounded-lg px-3 md:px-4 py-2 w-full text-left"
                                 >
-                                    {formData.type ? formData.type
+                                    {formData.type
+                                        ? (requestTypes.find(t => t._id === formData.type)?.name || formData.type)
                                         : "Sélectionner un type"}
                                     <span><IoCaretDownOutline /></span>
                                 </button>

@@ -21,13 +21,13 @@ const RequestCardItem = ({ request }) => {
 
             {/* Email */}
             <p className="italic truncate">
-                {request.email || <p className="text-gray-500">Aucun email</p>}
+                {request.email || <span className="text-gray-500">Aucun email</span>}
             </p>
 
             {/* Type */}
             <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-gray-600">Type :</span>
-                <span className="truncate">{request.requestType}</span>
+                <span className="truncate">{request.requestType.name}</span>
             </div>
 
             {/* Statut */}
