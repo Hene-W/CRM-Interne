@@ -1,11 +1,11 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useAuth } from "./AuthContext";
-import { API_URL } from "../api/api";
+import { API_URL, fetchWithAuth } from "../api/api";
 
 const RequestContext = createContext(null)
 
 export const RequestProvider = ({ children }) => {
-    const { token } = useAuth()
+    const { token, logout } = useAuth()
     const [requests, setRequests] = useState([])
     const [request, setRequest] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
@@ -13,11 +13,8 @@ export const RequestProvider = ({ children }) => {
     const fetchRequests = async () => {
         try {
             setIsLoading(true)
-            const res = await fetch(`${API_URL}/api/requests`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const res = await fetchWithAuth(`${API_URL}/api/requests`, {}, token, logout);
+            if (!res) return;
 
             const data = await res.json()
 
@@ -46,11 +43,8 @@ export const RequestProvider = ({ children }) => {
     const getRequest = async (id) => {
         setIsLoading(true)
         try {
-            const res = await fetch(`${API_URL}/api/request/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+            const res = await fetchWithAuth(`${API_URL}/api/request/${id}`, {}, token, logout);
+            if (!res) return;
 
             const data = await res.json()
 
@@ -70,14 +64,14 @@ export const RequestProvider = ({ children }) => {
     const createRequest = async (requestData) => {
         setIsLoading(true)
         try {
-            const res = await fetch(`${API_URL}/api/requests`, {
+            const res = await fetchWithAuth(`${API_URL}/api/requests`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(requestData)
-            })
+            }, token, logout)
+            if (!res) return;
 
             const data = await res.json()
 
@@ -97,14 +91,14 @@ export const RequestProvider = ({ children }) => {
     const updateRequest = async (id, updatedData) => {
         setIsLoading(true)
         try {
-            const res = await fetch(`${API_URL}/api/requests/${id}`, {
+            const res = await fetchWithAuth(`${API_URL}/api/requests/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify(updatedData)
-            })
+            }, token, logout)
+            if (!res) return;
 
             const data = await res.json()
 
@@ -124,12 +118,10 @@ export const RequestProvider = ({ children }) => {
     const deleteRequest = async (id) => {
         setIsLoading(true)
         try {
-            const res = await fetch(`${API_URL}/api/requests/${id}`, {
+            const res = await fetchWithAuth(`${API_URL}/api/requests/${id}`, {
                 method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+            }, token, logout)
+            if (!res) return;
 
             if (!res.ok) {
                 throw new Error("Failed to delete request")

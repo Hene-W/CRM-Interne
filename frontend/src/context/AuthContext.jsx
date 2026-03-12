@@ -64,14 +64,14 @@ export const AuthProvider = ({ children }) => {
 
     const updatePassword = async (currentPassword, newPassword) => {
         try {
-            const res = await fetch(`${API_URL}/api/auth/update-password`, {
+            const res = await fetchWithAuth(`${API_URL}/api/auth/update-password`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
                 },
                 body: JSON.stringify({ currentPassword, newPassword })
             })
+            if (!res) return
 
             const data = await res.json()
 

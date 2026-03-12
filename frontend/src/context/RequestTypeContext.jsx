@@ -1,30 +1,24 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
-import { API_URL } from "../api/api";
+import { API_URL, fetchWithAuth } from "../api/api";
 
 const RequestTypeContext = createContext(null)
 
 export const RequestTypeProvider = ({ children }) => {
-    const { token } = useAuth()
+    const { token, logout } = useAuth()
     const [requestTypes, setRequestTypes] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
     const fetchRequestTypes = async () => {
         setIsLoading(true)
         try {
-            const res = await fetch(`${API_URL}/api/request-types`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+            const res = await fetchWithAuth(`${API_URL}/api/request-types`, {}, token, logout);
 
-            const data = await res.json()
+            if (!res) return;
 
-            if (!res.ok) {
-                throw new Error("Failed to fetch request types")
-            }
+            const data = await res.json();
 
-            setRequestTypes(data)
+            setRequestTypes(data);
         } catch (error) {
             console.error("Error fetching request types:", error)
         } finally {
@@ -44,14 +38,14 @@ export const RequestTypeProvider = ({ children }) => {
         }
 
         try {
-            const res = await fetch(`${API_URL}/api/request-types`, {
+            const res = await fetchWithAuth(`${API_URL}/api/request-types`, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({ name })
-            })
+            }, token, logout);
+            if (!res) return
 
             const data = await res.json()
 
