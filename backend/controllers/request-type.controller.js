@@ -30,9 +30,9 @@ export const getAllRequestTypes = async (req, res) => {
     try {
         const userId = req.user._id
 
-        const requestTypes = (await RequestType.find({ userId })).sort({ createdAt: 1 })
+        const requestTypes = await RequestType.find({ userId }).sort({ createdAt: 1 })
         return res.status(200).json(requestTypes)
     } catch (error) {
-        return res.status(500).json({ message: "Error fetching request types" })
+        return res.status(500).json({ message: error.message })
     }
 }

@@ -18,9 +18,9 @@ const requestSchema = new mongoose.Schema(
             type: String,
         },
         requestType: {
-            type: String,
-            required: true,
-            default: "Aucun"
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "RequestType",
+            default: null
         },
         status: {
             type: String,
