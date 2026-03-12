@@ -54,6 +54,7 @@ export const RequestTypeProvider = ({ children }) => {
             }
 
             setRequestTypes(prev => [...prev, data.requestType])
+            return data.requestType
         } catch (error) {
             console.error("Error adding request type:", error)
         } finally {

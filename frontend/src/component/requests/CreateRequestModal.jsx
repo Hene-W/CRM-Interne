@@ -145,6 +145,7 @@ const CreateRequestModal = ({ isOpen, onClose }) => {
                                         placeholder="Sélectionner un type"
                                         open={menuTypeOpen}
                                         setOpen={setMenuTypeOpen}
+                                        allowAdd={true}
                                     />
                                 )}
                             </div>
@@ -172,6 +173,7 @@ const CreateRequestModal = ({ isOpen, onClose }) => {
                                         hideButton={true}
                                         open={menuStatusOpen}
                                         setOpen={setMenuStatusOpen}
+                                        allowAdd={false}
                                     />
                                 )}
                             </div>
