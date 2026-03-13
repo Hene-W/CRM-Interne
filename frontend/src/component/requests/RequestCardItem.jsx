@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const RequestCardItem = ({ request }) => {
     const statusColors = {
@@ -10,14 +11,16 @@ const RequestCardItem = ({ request }) => {
     return (
         <div className="border p-4 rounded-lg flex flex-col gap-3 bg-white shadow-sm">
             {/* Header: Nom + Date */}
-                        <div className="flex justify-between items-center">
-                            <h2 className="text-lg font-semibold truncate">
-                                {request.clientName + (request.firstName ? " " + request.firstName : "")}
-                            </h2>
-                            <p className="text-gray-500 shrink-0">
-                                {new Date(request.createdAt).toLocaleDateString("fr-FR")}
-                            </p>
-                        </div>
+            <div className="flex justify-between items-center">
+                <h2 className="text-lg font-semibold truncate hover:underline">
+                    <Link to={`/requests/${request._id}`}>
+                        {request.clientName + (request.firstName ? " " + request.firstName : "")}
+                    </Link>
+                </h2>
+                <p className="text-gray-500 shrink-0">
+                    {new Date(request.createdAt).toLocaleDateString("fr-FR")}
+                </p>
+            </div>
 
             {/* Email */}
             <p className="italic truncate">
@@ -42,9 +45,9 @@ const RequestCardItem = ({ request }) => {
 
             {/* Action */}
             <div className="flex justify-end">
-                <button className="text-blue-600 underline hover:text-blue-800">
+                <Link to={`/requests/${request._id}`} className="text-blue-600 underline hover:text-blue-800">
                     Voir plus...
-                </button>
+                </Link>
             </div>
         </div>
     )
