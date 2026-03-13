@@ -43,7 +43,7 @@ export const RequestProvider = ({ children }) => {
     const getRequest = async (id) => {
         setIsLoading(true)
         try {
-            const res = await fetchWithAuth(`${API_URL}/api/request/${id}`, {}, token, logout);
+            const res = await fetchWithAuth(`${API_URL}/api/requests/${id}`, {}, token, logout);
             if (!res) return;
 
             const data = await res.json()
