@@ -1,6 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
+import CustomSelect from "../CustomSelect"
+import { useRequestTypes } from '../../context/RequestTypeContext'
+import { IoCaretDownOutline } from 'react-icons/io5'
 
-const RequestDetailsHeader = ({ request }) => {
+const RequestDetailsHeader = ({ request, updateRequest }) => {
+    const { requestTypes } = useRequestTypes()
+    const typeOptions = requestTypes.map(rt => ({ value: rt._id, label: rt.name }))
+
+    const [menuTypeOpen, setMenuTypeOpen] = useState(false)
+    const [menuStatusOpen, setMenuStatusOpen] = useState(false)
+    const statusOptions = [
+        { value: "Nouveau", label: "Nouveau" },
+        { value: "En cours", label: "En cours" },
+        { value: "Terminé", label: "Terminé" },
+        { value: "Refusé", label: "Refusé" },
+    ]
+
     return (
         <div>
             <h1 className="text-2xl md:text-3xl font-bold mb-2">
@@ -8,12 +23,52 @@ const RequestDetailsHeader = ({ request }) => {
             </h1>
 
             <div className="flex flex-wrap gap-3 text-sm">
-                <span className="px-3 py-1 rounded-full bg-gray-100">
-                    Type : <strong>{request.requestType?.name || "Aucun"}</strong>
-                </span>
-                <span className="px-3 py-1 rounded-full bg-gray-100">
-                    Statut : <strong>{request.status}</strong>
-                </span>
+
+
+                <div className="relative">
+                    <button
+                        type="button"
+                        onClick={() => setMenuTypeOpen(!menuTypeOpen)}
+                        className="px-3 py-1 rounded-full bg-gray-100 text-sm flex items-center gap-2"
+                    >
+                        Type : <strong>{request.requestType?.name || "Aucun"}</strong>
+                        <span><IoCaretDownOutline size={14} /></span>
+                    </button>
+
+                    {menuTypeOpen && (
+                        <CustomSelect
+                            options={typeOptions}
+                            value={request.requestType?._id || null}
+                            onChange={(val) => updateRequest(request._id, { requestType: val })}
+                            open={menuTypeOpen}
+                            setOpen={setMenuTypeOpen}
+                            allowAdd={true}
+                        />
+                    )}
+                </div>
+
+
+                <div className="relative">
+                    <button
+                        type="button"
+                        onClick={() => setMenuStatusOpen(!menuStatusOpen)}
+                        className="px-3 py-1 rounded-full bg-gray-100 text-sm flex items-center gap-2"
+                    >
+                        Statut : <strong>{request.status || "Aucun"}</strong>
+                        <span><IoCaretDownOutline size={14} /></span>
+                    </button>
+
+                    {menuStatusOpen && (
+                        <CustomSelect
+                            options={statusOptions}
+                            value={request.status || null}
+                            onChange={(val) => updateRequest(request._id, { status: val })}
+                            open={menuStatusOpen}
+                            setOpen={setMenuStatusOpen}
+                            allowAdd={false}
+                        />
+                    )}
+                </div>
             </div>
         </div>
     )

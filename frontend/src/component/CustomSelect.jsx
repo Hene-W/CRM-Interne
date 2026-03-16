@@ -51,8 +51,7 @@ const CustomSelect = ({ options = [], value, onChange, open, setOpen, allowAdd =
             onChange(opt.value);
             setOpen(false);
           }}
-          className={`px-4 py-2 cursor-pointer hover:bg-gray-100 ${opt.value === value ? "bg-gray-50 font-medium" : ""
-            }`}
+          className={`px-4 py-2 cursor-pointer hover:bg-gray-100 ${opt.value === value ? "bg-gray-50 font-medium" : ""}`}
         >
           {opt.label}
         </div>
@@ -62,18 +61,18 @@ const CustomSelect = ({ options = [], value, onChange, open, setOpen, allowAdd =
       {allowAdd && (
         <>
           {adding ? (
-            <div className="px-4 py-2 flex gap-2">
+            <div className="px-4 py-2 flex flex-col gap-2">
               <input
                 type="text"
                 value={newType}
                 onChange={(e) => setNewType(e.target.value)}
                 placeholder="Nouveau type"
-                className="border border-gray-300 rounded px-2 py-1 flex-1"
+                className="border border-gray-300 rounded px-2 py-1 w-full"
               />
               <button
                 type="button"
                 onClick={handleAddType}
-                className="bg-[#1f1f1f] hover:bg-[#333333] text-white px-3 py-1 rounded"
+                className="bg-[#1f1f1f] hover:bg-[#333333] text-white px-3 py-1 rounded w-full"
               >
                 Valider
               </button>

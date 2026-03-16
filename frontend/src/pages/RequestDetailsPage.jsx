@@ -22,7 +22,7 @@ const RequestDetailsPage = () => {
         <Header title="Détails de la demande" showButton={false} />
 
         {isLoading && (
-          <p className="text-gray-500">Chargement de la demande...</p>
+          <p className="text-gray-500 text-sm">Chargement de la demande...</p>
         )}
         {!isLoading && !request && (
           <p className="text-gray-500">
@@ -30,10 +30,10 @@ const RequestDetailsPage = () => {
           </p>
         )}
 
-        {!isLoading && request && (
+        {request && (
           <div className="space-y-6">
             {/* Header */}
-            <RequestDetailsHeader request={request} />
+            <RequestDetailsHeader request={request} updateRequest={updateRequest} />
             {/* Info */}
             <RequestDetailsInfo request={request} updateRequest={updateRequest} />
           </div>
