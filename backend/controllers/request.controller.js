@@ -70,25 +70,38 @@ export const updateRequest = async (req, res) => {
     try {
         const id = req.params.id
         const { clientName, firstName, email, requestType, status, internalNotes } = req.body
+        const userId = req.user._id
 
-        const request = await Request.findOne({ _id: id, userId: req.user._id })
+        const request = await Request.findOne({ _id: id, userId })
 
         if (!request) {
             return res.status(404).json({ message: "Request not found" })
         }
 
+        const updateData = {}
+        if (clientName !== undefined) updateData.clientName = clientName
+        if (firstName !== undefined) updateData.firstName = firstName
+        if (email !== undefined) updateData.email = email
+        if (status !== undefined) updateData.status = status
+        if (internalNotes !== undefined) updateData.internalNotes = internalNotes
+
+        if (requestType !== undefined) {
+            if (requestType) {
+                const type = await RequestType.findOne({ _id: requestType, userId })
+                if (!type) {
+                    return res.status(400).json({ message: "Invalid request type" })
+                }
+                updateData.requestType = type._id
+            } else {
+                updateData.requestType = null
+            }
+        }
+
         const updatedRequest = await Request.findOneAndUpdate(
-            { _id: id, userId: req.user._id },
-            {
-                clientName,
-                firstName,
-                email,
-                requestType,
-                status,
-                internalNotes
-            },
+            { _id: id, userId },
+            updateData,
             { returnDocument: "after", runValidators: true }
-        )
+        ).populate("requestType", "name")
 
         if (!updatedRequest) {
             return res.status(404).json({ message: "Request not found" })

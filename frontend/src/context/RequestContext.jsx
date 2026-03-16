@@ -107,6 +107,7 @@ export const RequestProvider = ({ children }) => {
             }
 
             setRequests(prev => prev.map(req => req._id === id ? data.request : req))
+            setRequest(prev => prev && prev._id === id ? data.request : prev)
             return data.request
         } catch (error) {
             console.error("Error updating request:", error)
