@@ -35,7 +35,7 @@ const RequestDetailsPage = () => {
             {/* Header */}
             <RequestDetailsHeader request={request} />
             {/* Info */}
-            <RequestDetailsInfo request={request} />
+            <RequestDetailsInfo request={request} updateRequest={updateRequest} />
           </div>
         )}
       </div>
