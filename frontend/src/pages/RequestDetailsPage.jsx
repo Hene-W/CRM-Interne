@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useRequests } from '../context/RequestContext'
 import Header from '../component/Header'
+import RequestDetailsHeader from '../component/requestsDetails/RequestDetailsHeader'
+import RequestDetailsInfo from '../component/requestsDetails/RequestDetailsInfo'
+import RequestDetailsNotes from '../component/requestsDetails/RequestDetailsNotes'
 
 const RequestDetailsPage = () => {
   const { id } = useParams()
@@ -30,60 +33,19 @@ const RequestDetailsPage = () => {
         {!isLoading && request && (
           <div className="space-y-6">
             {/* Header */}
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold mb-2">
-                {request.clientName} {request.firstName && request.firstName}
-              </h1>
-
-              <div className="flex flex-wrap gap-3 text-sm">
-                <span className="px-3 py-1 rounded-full bg-gray-100">
-                  Type : <strong>{request.requestType?.name || "Aucun"}</strong>
-                </span>
-                <span className="px-3 py-1 rounded-full bg-gray-100">
-                  Statut : <strong>{request.status}</strong>
-                </span>
-              </div>
-            </div>
-
-            <div className=" bg-white border rounded-xl p-4 space-y-4">
-              <h2 className="text-lg font-semibold">Détails client</h2>
-
-              <div>
-                <p className="text-sm font-medium text-gray-600">Nom</p>
-                <p className="text-gray-800 truncate max-w-full">
-                  {request.clientName} {request.firstName && request.firstName}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-sm font-medium text-gray-600">Email</p>
-                <p className="text-gray-800 truncate max-w-full">
-                  {request.email || "Aucune adresse e-mail"}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-sm font-medium text-gray-600">Date de création</p>
-                <p className="text-gray-800">
-                  {new Date(request.createdAt).toLocaleDateString("fr-FR")}
-                </p>
-              </div>
-            </div>
-
+            <RequestDetailsHeader request={request} />
+            {/* Info */}
+            <RequestDetailsInfo request={request} />
           </div>
-
         )}
       </div>
+
       {/* Right column – Notes */}
       <div className="md:w-2/3  bg-white border rounded-xl p-4">
         <h2 className="text-lg font-semibold mb-4">Notes internes</h2>
 
-        {/* notes list ici */}
-        {!isLoading && request?.noteInterne ? "notes...." : <p className="text-sm text-gray-500">
-          Aucune note pour le moment.
-        </p>}
-
-        {/* plus tard : textarea + bouton */}
+        {/* notes ici */}
+        <RequestDetailsNotes request={request} isLoading={isLoading} />
       </div>
     </div>
   )
