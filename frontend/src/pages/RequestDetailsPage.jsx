@@ -18,10 +18,10 @@ const RequestDetailsPage = () => {
   return (
     <div className='flex flex-col md:flex-row gap-6 h-full'>
       {/* Left Column - Details */}
-      <div className="md:w-1/3">
+      <div className="md:w-1/3 flex flex-col">
         <Header title="Détails de la demande" showButton={false} />
 
-        {isLoading && (
+        {isLoading && !request && (
           <p className="text-gray-500 text-sm">Chargement de la demande...</p>
         )}
         {!isLoading && !request && (
@@ -31,22 +31,18 @@ const RequestDetailsPage = () => {
         )}
 
         {request && (
-          <div className="space-y-6">
+          <div className="flex-1 overflow-y-auto space-y-6 mt-4">
             {/* Header */}
             <RequestDetailsHeader request={request} updateRequest={updateRequest} />
             {/* Info */}
             <RequestDetailsInfo request={request} updateRequest={updateRequest} />
+            
           </div>
         )}
       </div>
 
       {/* Right column – Notes */}
-      <div className="md:w-2/3  bg-white border rounded-xl p-4">
-        <h2 className="text-lg font-semibold mb-4">Notes internes</h2>
-
-        {/* notes ici */}
-        <RequestDetailsNotes request={request} isLoading={isLoading} />
-      </div>
+      <RequestDetailsNotes request={request} updateRequest={updateRequest} />
     </div>
   )
 }
