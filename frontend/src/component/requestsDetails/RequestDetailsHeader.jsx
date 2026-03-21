@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
 import CustomSelect from "../CustomSelect"
+import DropDownMenu from '../DropDownMenu'
+import ConfirmDeleteModal from "../ConfirmDeleteModal"
 import { useRequestTypes } from '../../context/RequestTypeContext'
-import { IoCaretDownOutline } from 'react-icons/io5'
+import { IoCaretDownOutline, IoEllipsisHorizontal } from 'react-icons/io5'
 
-const RequestDetailsHeader = ({ request, updateRequest }) => {
+const RequestDetailsHeader = ({ request, updateRequest, deleteRequest }) => {
     const { requestTypes } = useRequestTypes()
     const typeOptions = requestTypes.map(rt => ({ value: rt._id, label: rt.name }))
 
     const [menuTypeOpen, setMenuTypeOpen] = useState(false)
     const [menuStatusOpen, setMenuStatusOpen] = useState(false)
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false)
     const statusOptions = [
         { value: "Nouveau", label: "Nouveau" },
         { value: "En cours", label: "En cours" },
@@ -18,13 +22,35 @@ const RequestDetailsHeader = ({ request, updateRequest }) => {
 
     return (
         <div>
-            <h1 className="text-2xl md:text-3xl font-bold mb-2">
-                {request.clientName} {request.firstName && request.firstName}
-            </h1>
+            <div className='flex items-center justify-between'>
+                <h1 className="text-2xl md:text-3xl font-bold mb-2">
+                    {request.clientName} {request.firstName && request.firstName}
+                </h1>
+                <div className='relative'>
+                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className='p-2 text-2xl'><IoEllipsisHorizontal /></button>
+                    <DropDownMenu
+                        className="absolute"
+                        position="bl"
+                        open={isMenuOpen}
+                        onClose={() => setIsMenuOpen(false)}
+                        items={[
+                            { label: "Suprimer la demande", onClick: () => { setIsConfirmModalOpen(true) }, danger: true }
+                        ]}
+                    />
+                </div>
+            </div>
+
+            <div>
+                <ConfirmDeleteModal
+                    open={isConfirmModalOpen}
+                    title={`Supprimer ${request.clientName + " " + (request.firstName && request.firstName)}`}
+                    description={`Êtes-vous sûr de vouloir supprimer ${request.clientName + " " + (request.firstName && request.firstName)} ? Cette action est irréversible.`}
+                    onConfirm={() => deleteRequest(request._id)}
+                    onCancel={() => setIsConfirmModalOpen(false)}
+                />
+            </div>
 
             <div className="flex flex-wrap gap-3 text-sm">
-
-
                 <div className="relative">
                     <button
                         type="button"

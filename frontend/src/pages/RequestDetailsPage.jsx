@@ -33,7 +33,7 @@ const RequestDetailsPage = () => {
         {request && (
           <div className="flex-1 overflow-y-auto space-y-6 mt-4">
             {/* Header */}
-            <RequestDetailsHeader request={request} updateRequest={updateRequest} />
+            <RequestDetailsHeader request={request} updateRequest={updateRequest} deleteRequest={deleteRequest} />
             {/* Info */}
             <RequestDetailsInfo request={request} updateRequest={updateRequest} />
             

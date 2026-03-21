@@ -130,6 +130,7 @@ export const RequestProvider = ({ children }) => {
             }
 
             setRequests(prev => prev.filter(req => req._id !== id))
+            if (request && request._id === id) setRequest(null)
             return true
         } catch (error) {
             console.error("Error deleting request:", error)
