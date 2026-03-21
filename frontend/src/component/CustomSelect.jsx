@@ -3,7 +3,7 @@ import { useRequestTypes } from "../context/RequestTypeContext";
 
 const CustomSelect = ({ options = [], value, onChange, open, setOpen, allowAdd = false }) => {
   const ref = useRef(null);
-  const { addRequestType } = useRequestTypes(); // ton context
+  const { addRequestType } = useRequestTypes(); 
   const [adding, setAdding] = useState(false);
   const [newType, setNewType] = useState("");
 

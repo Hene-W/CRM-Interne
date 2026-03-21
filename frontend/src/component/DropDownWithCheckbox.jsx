@@ -1,7 +1,21 @@
-// components/UI/Dropdown.jsx
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 
 const Dropdown = ({ isOpen, setIsOpen, label, options = [], selected = [], onChange }) => {
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen, setIsOpen]);
+
     const toggleOption = (value) => {
         if (selected.includes(value)) {
             onChange(selected.filter((v) => v !== value));
@@ -10,10 +24,10 @@ const Dropdown = ({ isOpen, setIsOpen, label, options = [], selected = [], onCha
         }
     };
 
+    if (!isOpen) return null;
     return (
-        <div className="absolute top-12 z-20">
-
-            <div className=" w-48 bg-white border border-[#f4f4f4] rounded shadow-lg z-50">
+        <div ref={dropdownRef} className="absolute top-12 z-20">
+            <div className="w-48 bg-white border border-[#f4f4f4] rounded shadow-lg z-50">
                 {options.map((option) => (
                     <label
                         key={option.value}

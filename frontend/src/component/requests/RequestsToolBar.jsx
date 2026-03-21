@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { IoArrowDown, IoCaretDownOutline, IoGridOutline, IoMenu, IoMenuOutline, IoSearch } from 'react-icons/io5'
-import Dropdown from '../DropDown';
+import DropDownWithCheckbox from '../DropDownWithCheckbox';
 
 const RequestsToolBar = ({ setViewMode, viewMode, selectedStatus, setSelectedStatus, searchQuery, setSearchQuery }) => {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -34,7 +34,7 @@ const RequestsToolBar = ({ setViewMode, viewMode, selectedStatus, setSelectedSta
             <span><IoCaretDownOutline /></span>
           </button>
           {menuOpen && (
-            <Dropdown
+            <DropDownWithCheckbox
               isOpen={menuOpen}
               setIsOpen={setMenuOpen}
               label="Filtrer par statut"
