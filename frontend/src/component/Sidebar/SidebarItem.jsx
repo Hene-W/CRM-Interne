@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const SidebarItem = ({ name, to, end = false }) => {
+const SidebarItem = ({ name, to, end = false, onClick }) => {
   return (
     <NavLink
       to={to}
@@ -11,10 +11,11 @@ const SidebarItem = ({ name, to, end = false }) => {
         ${
           isActive
             ? "bg-[#1f1f1f] text-white hover:bg-[#333333]"
-            : "bg-white text-gray-700 hover:bg-[#f4f4f4]"
+            : "bg-white hover:bg-[#f4f4f4]"
         }
         `
       }
+      onClick={onClick}
     >
       {name}
     </NavLink>
