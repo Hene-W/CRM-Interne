@@ -12,32 +12,35 @@ import SettingsPage from './pages/SettingsPage.jsx'
 import ProtectedRoute from './component/ProtectedRoute.jsx'
 import { RequestProvider } from './context/RequestContext.jsx'
 import { RequestTypeProvider } from './context/RequestTypeContext.jsx'
+import {ToastProvider} from './context/ToastContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <RequestProvider>
-        <RequestTypeProvider>
-          <BrowserRouter>
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/login" element={<LoginPage />} />
+      <ToastProvider>
+        <RequestProvider>
+          <RequestTypeProvider>
+            <BrowserRouter>
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/login" element={<LoginPage />} />
 
-              {/* Protected Routes */}
-              <Route element={<ProtectedRoute />}>
-                <Route element={<App />}>
+                {/* Protected Routes */}
+                <Route element={<ProtectedRoute />}>
+                  <Route element={<App />}>
 
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/dashboard" element={<DashboardPage />} />
-                  <Route path="/requests/:id" element={<RequestDetailsPage />} />
-                  <Route path="/settings" element={<SettingsPage />} />
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/dashboard" element={<DashboardPage />} />
+                    <Route path="/requests/:id" element={<RequestDetailsPage />} />
+                    <Route path="/settings" element={<SettingsPage />} />
 
+                  </Route>
                 </Route>
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </RequestTypeProvider> 
-      </RequestProvider>
+              </Routes>
+            </BrowserRouter>
+          </RequestTypeProvider>
+        </RequestProvider>
+      </ToastProvider>
     </AuthProvider>
   </StrictMode>,
 )

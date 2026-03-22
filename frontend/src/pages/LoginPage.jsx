@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { IoEyeOutline, IoEyeSharp } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
+import { useToast } from "../context/ToastContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
@@ -10,12 +11,15 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const { login, isLoading } = useAuth()
   const navigate = useNavigate()
+  const { notify } = useToast()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const success = await login(email, password)
-    if (success) {
+    try {
+      await login(email, password)
       navigate('/')
+    } catch (error) {
+      notify("Erreur lors de la connexion", "error")
     }
   }
 

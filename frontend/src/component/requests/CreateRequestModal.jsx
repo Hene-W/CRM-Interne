@@ -3,6 +3,7 @@ import CustomSelect from '../CustomSelect'
 import { IoCaretDownOutline } from 'react-icons/io5'
 import { useRequests } from '../../context/RequestContext'
 import { useRequestTypes } from '../../context/RequestTypeContext'
+import { useNavigate } from 'react-router-dom'
 
 const CreateRequestModal = ({ isOpen, onClose }) => {
     const [menuTypeOpen, setMenuTypeOpen] = useState(false)
@@ -18,6 +19,7 @@ const CreateRequestModal = ({ isOpen, onClose }) => {
 
     const { requestTypes } = useRequestTypes()
     const { createRequest } = useRequests()
+    const navigate = useNavigate();
 
     const typeOptions = requestTypes.map(rt => ({ value: rt._id, label: rt.name }))
     const statusOptions = [
@@ -49,7 +51,12 @@ const CreateRequestModal = ({ isOpen, onClose }) => {
             internalNotes: formData.notes
         }
 
-        await createRequest(requestPayload)
+        try {
+            const newRequest = await createRequest(requestPayload)
+            navigate(`/requests/${newRequest._id}`)
+        } catch (error) {
+            return null
+        }
 
         handleCancel()
     }

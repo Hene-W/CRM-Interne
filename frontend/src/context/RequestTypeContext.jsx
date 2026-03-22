@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import { API_URL, fetchWithAuth } from "../api/api";
+import { useToast } from "./ToastContext";
 
 const RequestTypeContext = createContext(null)
 
@@ -8,6 +9,7 @@ export const RequestTypeProvider = ({ children }) => {
     const { token, logout } = useAuth()
     const [requestTypes, setRequestTypes] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const { notify } = useToast()
 
     const fetchRequestTypes = async () => {
         setIsLoading(true)
@@ -21,6 +23,7 @@ export const RequestTypeProvider = ({ children }) => {
             setRequestTypes(data);
         } catch (error) {
             console.error("Error fetching request types:", error)
+            notify("Erreur lors du chargement des types de demandes. Veuillez réessayer.", "error")
         } finally {
             setIsLoading(false)
         }
@@ -57,6 +60,7 @@ export const RequestTypeProvider = ({ children }) => {
             return data.requestType
         } catch (error) {
             console.error("Error adding request type:", error)
+            notify("Erreur lors de la création du type de demande. Veuillez réessayer.", "error")
         } finally {
             setIsLoading(false)
         }

@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { useAuth } from "./AuthContext";
 import { API_URL, fetchWithAuth } from "../api/api";
+import { useToast } from "./ToastContext";
 
 const RequestContext = createContext(null)
 
@@ -9,6 +10,7 @@ export const RequestProvider = ({ children }) => {
     const [requests, setRequests] = useState([])
     const [request, setRequest] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
+    const {notify} = useToast()
 
     const fetchRequests = async () => {
         try {
@@ -24,6 +26,7 @@ export const RequestProvider = ({ children }) => {
             setRequests(data)
         } catch (error) {
             console.error("Error fetching requests:", error)
+            notify("Erreur lors du chargement des demandes. Veuillez réessayer.", "error")
         } finally {
             setIsLoading(false)
         }
@@ -57,6 +60,7 @@ export const RequestProvider = ({ children }) => {
             return data
         } catch (error) {
             console.error("Error fetching request:", error)
+            notify("Erreur lors du chargement de la demande. Veuillez réessayer.", "error")
         } finally {
             setIsLoading(false)
         }
@@ -84,6 +88,7 @@ export const RequestProvider = ({ children }) => {
             return data.request
         } catch (error) {
             console.error("Error creating request:", error)
+            notify("Erreur lors de la création de la demande. Veuillez réessayer.", "error")
         } finally {
             setIsLoading(false)
         }
@@ -112,6 +117,7 @@ export const RequestProvider = ({ children }) => {
             return data.request
         } catch (error) {
             console.error("Error updating request:", error)
+            notify("Erreur lors de la mise à jour de la demande. Veuillez réessayer.", "error")
         } finally {
             setIsLoading(false)
         }
@@ -134,6 +140,7 @@ export const RequestProvider = ({ children }) => {
             return true
         } catch (error) {
             console.error("Error deleting request:", error)
+            notify("Erreur lors de la suppression de la demande. Veuillez réessayer.", "error")
         } finally {
             setIsLoading(false)
         }

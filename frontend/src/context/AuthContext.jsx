@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             console.log("Login error:", error)
             setIsLoading(false)
+            throw error
         }
     }
 
@@ -82,6 +83,7 @@ export const AuthProvider = ({ children }) => {
             return data.message
         } catch (error) {
             console.log("Password update error:", error)
+            throw error
         }
     }
 

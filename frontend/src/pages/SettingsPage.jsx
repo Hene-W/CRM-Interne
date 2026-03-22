@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Header from '../component/Header'
 import { useAuth } from '../context/AuthContext'
+import { useToast } from '../context/ToastContext'
 
 
 const SettingsPage = () => {
@@ -9,6 +10,7 @@ const SettingsPage = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("")
+  const {notify} = useToast()
 
 
   const handlePassword = async () => {
@@ -23,7 +25,13 @@ const SettingsPage = () => {
       return
     }
 
-    await updatePassword(currentPassword, newPassword)
+    try {
+      await updatePassword(currentPassword, newPassword)
+      notify("Mot de passe mis à jour", "success")
+    } catch (error) {
+      // setError("Erreur lors de la modification du mot de passe")
+      notify("Erreur lors de la modification du mot de passe", "error")
+    }
   }
 
   return (
