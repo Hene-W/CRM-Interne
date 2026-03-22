@@ -1,15 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoClose, IoPencil } from 'react-icons/io5'
 
 const RequestDetailsInfo = ({ request, updateRequest }) => {
     const [form, setForm] = useState({
-        clientName: request.clientName || "",
-        firstName: request.firstName || "",
-        email: request.email || "",
-    })
+        clientName: "",
+        firstName: "",
+        email: "",
+    });
     const [isEditing, setIsEditing] = useState(false)
     const [error, setError] = useState("")
 
+    useEffect(() => {
+        if (request) {
+            setForm({
+                clientName: request.clientName || "",
+                firstName: request.firstName || "",
+                email: request.email || "",
+            });
+        }
+    }, [request]);
 
     const handleSubmit = async (e) => {
         e.preventDefault()
