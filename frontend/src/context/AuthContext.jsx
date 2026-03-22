@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { API_URL } from "../api/api.js";
+import { API_URL, fetchWithAuth } from "../api/api.js";
 
 const AuthContext = createContext(null);
 
@@ -65,12 +65,12 @@ export const AuthProvider = ({ children }) => {
     const updatePassword = async (currentPassword, newPassword) => {
         try {
             const res = await fetchWithAuth(`${API_URL}/api/auth/update-password`, {
-                method: "PATCH",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ currentPassword, newPassword })
-            })
+            }, token, logout)
             if (!res) return
 
             const data = await res.json()
