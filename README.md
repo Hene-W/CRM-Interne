@@ -82,7 +82,6 @@ npm run dev
 - Backend : Render
 - Frontend : Vercel
 
-Veille à ce que ``VITE_API_URL`` dans le frontend pointe vers l’URL publique du backend déployé.
 
 ## Limitations actuelles
 - Authentification pour un seul utilisateur (pas de multi-utilisateurs)
