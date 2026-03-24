@@ -94,3 +94,6 @@ npm run dev
 - Notifications par email ou Slack
 - Amélioration de l’UI/UX et mode sombre
 
+
+## Mon rôle
+J’ai développé l’intégralité du projet, du frontend React.js au backend Node.js/Express (CRUD, auth basique), et intégré toutes les fonctionnalités et interfaces.
