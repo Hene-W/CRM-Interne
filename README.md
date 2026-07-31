@@ -40,7 +40,7 @@ L’objectif du projet est de créer un outil interne fonctionnel et facile à u
 ### Installation
 1. Cloner le projet :
 ```bash
-git clone [https://github.com/username/crm-interne.git](https://github.com/Hene-W/CRM-Interne.git)
+git clone https://github.com/Hene-W/CRM-Interne.git
 ```
 
 2. Installer les dépendances pour le backend et le frontend :
