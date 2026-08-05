@@ -19,6 +19,9 @@ app.use(cors({
 connectDB()
 
 // Routes
+app.get('/', (req, res) => {
+  res.status(200).send('OK');
+});
 app.use("/api/auth", authRoutes)
 app.use("/api/requests", requestRoutes)
 app.use("/api/request-types", requestTypeRoutes)
