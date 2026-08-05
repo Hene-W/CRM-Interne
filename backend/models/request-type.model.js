@@ -5,7 +5,6 @@ const requestTypeSchema = new mongoose.Schema(
         name: {
             type: String,
             required: true,
-            unique: true
         },
         userId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -14,6 +13,7 @@ const requestTypeSchema = new mongoose.Schema(
         }
     }, { timestamps: true }
 )
+requestTypeSchema.index({ name: 1, userId: 1 }, { unique: true })
 
 const RequestType = mongoose.model("RequestType", requestTypeSchema)
 

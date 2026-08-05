@@ -24,6 +24,7 @@ L’objectif du projet est de créer un outil interne fonctionnel et facile à u
 
 - Node.js & Express
 - MongoDB
+- JWT
 
 ### Outils
 
