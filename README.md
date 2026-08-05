@@ -41,7 +41,7 @@ L’objectif du projet est de créer un outil interne fonctionnel et facile à u
 ### Installation
 1. Cloner le projet :
 ```bash
-git clone https://github.com/username/crm-interne.git
+git clone https://github.com/Hene-W/CRM-Interne.git
 ```
 
 2. Installer les dépendances pour le backend et le frontend :
@@ -83,7 +83,6 @@ npm run dev
 - Backend : Render
 - Frontend : Vercel
 
-Veille à ce que ``VITE_API_URL`` dans le frontend pointe vers l’URL publique du backend déployé.
 
 ## Limitations actuelles
 - Authentification pour un seul utilisateur (pas de multi-utilisateurs)
@@ -96,3 +95,6 @@ Veille à ce que ``VITE_API_URL`` dans le frontend pointe vers l’URL publique 
 - Notifications par email ou Slack
 - Amélioration de l’UI/UX et mode sombre
 
+
+## Mon rôle
+J’ai développé l’intégralité du projet, du frontend React.js au backend Node.js/Express (CRUD, auth basique), et intégré toutes les fonctionnalités et interfaces.
