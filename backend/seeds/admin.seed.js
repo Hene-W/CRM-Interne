@@ -13,6 +13,7 @@ const seedAdmin = async () => {
         const existingAdmin = await User.findOne({email: "sarahmartin@gmail.com"})
         if (existingAdmin) {
             console.log("Admin already exists");
+            process.exit()
         }
 
         const hashedPassword = await bcryptjs.hash("123456", 10)
