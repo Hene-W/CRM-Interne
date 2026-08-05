@@ -10,7 +10,7 @@ const seedAdmin = async () => {
     try {
         await connectDB()
 
-        const existingAdmin = await User.findOne({email: "wannes.hene@gmail.com"})
+        const existingAdmin = await User.findOne({email: "sarahmartin@gmail.com"})
         if (existingAdmin) {
             console.log("Admin already exists");
         }
@@ -18,7 +18,7 @@ const seedAdmin = async () => {
         const hashedPassword = await bcryptjs.hash("123456", 10)
 
         await User.create({
-            email: "wannes.hene@gmail.com",
+            email: "sarahmartin@gmail.com",
             password: hashedPassword,
         })
 
